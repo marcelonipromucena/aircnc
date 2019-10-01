@@ -1,22 +1,19 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const routes = require('./routes');
 
 const app = express();
 
+mongoose.connect(
+  'mongodb+srv://omnistack:omnistack@cluster0-vnaya.mongodb.net/omnistack9?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+);
+
 app.use(express.json());
-app.get('/', (req, res) => {
-  return res.json({ ok: true });
-});
-//acessar query params
-app.get('/users', (req, res) => {
-  return res.json({ ok: req.query.id });
-});
-//Acessar corpo
-app.post('/users', (req, res) => {
-  return res.json(req.body);
-});
-//Acessar path variable
-app.put('/users/:id', (req, res) => {
-  return res.json({ id: req.params.id });
-});
+
+app.use(routes);
 
 app.listen(3333);
